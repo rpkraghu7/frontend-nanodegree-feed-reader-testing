@@ -35,6 +35,7 @@ $(function() {
            var num = allFeeds.length;
            for(var i=0;i<num;i++){
              expect(allFeeds[i].url).toBeDefined();
+             expect(allFeeds[i].url).not.toBe('');
            }
          });
 
@@ -46,6 +47,7 @@ $(function() {
            var num = allFeeds.length;
            for(var i=0;i<num;i++){
              expect(allFeeds[i].name).toBeDefined();
+             expect(allFeeds[i].name).not.toBe('');
            }
          });
 
@@ -54,12 +56,13 @@ $(function() {
 
     /* This test suite has the test to be done menu */
 describe('Menu',function(){
+
   /* This test ensures the menu element is
   * hidden by default.*/
 
   it('is hidden by default',function(){
-    var div= $("body").attr('class');
-    expect(div).toBe('menu-hidden');
+    var div= $("body").hasClass('menu-hidden');
+    expect(div).toBe(true);
   });
 
 
@@ -70,12 +73,12 @@ describe('Menu',function(){
   */
   it('changes visibilty',function(){
     $('.menu-icon-link').trigger('click');
-    var div= $("body").attr('class');
-    expect(div).toBe('');
+    var div= $("body").hasClass('menu-hidden');
+    expect(div).toBe(false);
 
     $('.menu-icon-link').trigger('click');
-    var div= $("body").attr('class');
-    expect(div).toBe('menu-hidden');
+    var div= $("body").hasClass('menu-hidden');
+    expect(div).toBe(true);
 
   });
 });
@@ -109,11 +112,12 @@ describe('New Feed Selection',function(){
      $('.feed').empty()
     loadFeed(0,function(){
       entry1 =$('.feed .entry').text();
+      loadFeed(1,function(){
+        entry2= $('.feed .entry').text();
+        done();
+      });
     });
-    loadFeed(1,function(){
-      entry2= $('.feed .entry').text();
-      done();
-    });
+
   });
 
   it('changes the content',function(done){
